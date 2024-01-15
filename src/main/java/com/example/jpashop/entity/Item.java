@@ -1,9 +1,8 @@
-package com.example.jpashop.Item;
+package com.example.jpashop.entity;
 
+import com.example.jpashop.constant.ItemSellStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name="item")
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Item {
 
@@ -38,4 +38,5 @@ public class Item {
     private LocalDateTime regTime;
 
     private LocalDateTime updateTime;
+
 }
