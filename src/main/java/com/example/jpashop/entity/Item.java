@@ -28,8 +28,7 @@ public class Item {
     @Column(nullable = false)
     private int stockNumber;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     private String itemDetail;
 
     @Enumerated(EnumType.STRING)
