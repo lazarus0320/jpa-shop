@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="item")
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Item {
 
@@ -38,4 +37,15 @@ public class Item {
 
     private LocalDateTime updateTime;
 
+    @Builder
+    public Item(Long id, String itemNm, int price, int stockNumber, String itemDetail, ItemSellStatus itemSellStatus, LocalDateTime regTime, LocalDateTime updateTime) {
+        this.id = id;
+        this.itemNm = itemNm;
+        this.price = price;
+        this.stockNumber = stockNumber;
+        this.itemDetail = itemDetail;
+        this.itemSellStatus = itemSellStatus;
+        this.regTime = regTime;
+        this.updateTime = updateTime;
+    }
 }
