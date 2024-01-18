@@ -3,6 +3,7 @@ package com.example.jpashop.entity;
 import com.example.jpashop.constant.ItemSellStatus;
 import com.example.jpashop.constant.OrderStatus;
 import com.example.jpashop.repository.ItemRepository;
+import com.example.jpashop.repository.MemberRepository;
 import com.example.jpashop.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,6 +30,9 @@ class OrderTest {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @PersistenceContext
     EntityManager em;
 
@@ -41,6 +45,17 @@ class OrderTest {
                 .stockNumber(100)
                 .regTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now()).build();
+    }
+
+    public OrderItem createOrderItem(Order order, Item item) {
+        return OrderItem.builder()
+                .item(item)
+                .order(order)
+                .count(10)
+                .orderPrice(1000)
+                .regTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
     }
 
     @Test
@@ -59,15 +74,7 @@ class OrderTest {
             Item item = this.createItem();
             itemRepository.save(item);
 
-            OrderItem orderItem = OrderItem.builder()
-                    .item(item)
-                    .order(order)
-                    .count(10)
-                    .orderPrice(1000)
-                    .regTime(LocalDateTime.now())
-                    .updateTime(LocalDateTime.now())
-                    .build();
-
+            OrderItem orderItem = createOrderItem(order, item);
             order.getOrderItems().add(orderItem);
         }
         orderRepository.saveAndFlush(order);
@@ -76,5 +83,28 @@ class OrderTest {
         Order savedOrder = orderRepository.findById(order.getId())
                 .orElseThrow(EntityNotFoundException::new);
         assertEquals(3, savedOrder.getOrderItems().size());
+    }
+
+
+    public Order createOrder() {
+        Order order = createOrder();
+        Item item = createItem();
+        OrderItem orderItem = createOrderItem(order, item);
+
+        Member member = Member.builder()
+                .build();
+        memberRepository.save(member);
+
+        // order.setMember(member);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Test
+    @DisplayName("고아 객체 제거 테스트")
+    void orphanRemovalTest() {
+        Order order = createOrder();
+        order.getOrderItems().remove(0);
+        em.flush();
     }
 }

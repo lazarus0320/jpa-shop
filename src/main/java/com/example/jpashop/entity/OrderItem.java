@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
     @Id
     @GeneratedValue
