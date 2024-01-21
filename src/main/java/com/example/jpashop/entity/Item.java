@@ -2,9 +2,10 @@ package com.example.jpashop.entity;
 
 import com.example.jpashop.constant.ItemSellStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
+        import java.time.LocalDateTime;
 
 @Entity
 @Table(name="item")
@@ -18,23 +19,33 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @NotNull
+    @Column(name = "item_name", length = 50)
     private String itemNm;
 
-    @Column(name = "price", nullable = false)
+    @NotNull
+    @Column(name = "price")
     private int price;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "stock_number")
     private int stockNumber;
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @NotNull
+    @Column(name = "item_detail", columnDefinition="TEXT")
     private String itemDetail;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "item_sell_status")
     private ItemSellStatus itemSellStatus;
 
+    @NotNull
+    @Column(name = "reg_time")
     private LocalDateTime regTime;
 
+    @NotNull
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 
     @Builder

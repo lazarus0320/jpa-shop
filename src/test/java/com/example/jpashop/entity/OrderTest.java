@@ -87,16 +87,27 @@ class OrderTest {
 
 
     public Order createOrder() {
-        Order order = createOrder();
-        Item item = createItem();
-        OrderItem orderItem = createOrderItem(order, item);
-
         Member member = Member.builder()
                 .build();
         memberRepository.save(member);
 
-        // order.setMember(member);
+        Order order = Order.builder()
+                .member(member)
+                .orderDate(LocalDateTime.now())
+                .orderStatus(OrderStatus.ORDER)
+                .regTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
+
         orderRepository.save(order);
+
+        for (int i = 0; i < 3; i++) {
+            Item item = createItem();
+            itemRepository.save(item);
+            OrderItem orderItem = createOrderItem(order, item);
+            order.getOrderItems().add(orderItem);
+        }
+
         return order;
     }
 
