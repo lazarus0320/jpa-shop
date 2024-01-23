@@ -2,6 +2,7 @@ package com.example.jpashop.entity;
 
 import com.example.jpashop.constant.OrderStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -23,17 +24,25 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @NotNull
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "order_status")
     private OrderStatus orderStatus;
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @NotNull
+    @Column(name = "reg_time")
     private LocalDateTime regTime;
 
+    @NotNull
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 
     @Builder

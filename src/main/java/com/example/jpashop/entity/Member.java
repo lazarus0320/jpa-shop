@@ -2,6 +2,7 @@ package com.example.jpashop.entity;
 
 import com.example.jpashop.constant.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -16,15 +17,23 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @Column(name = "name")
     private String name;
 
-    @Column(unique = true)
+    @NotNull
+    @Column(name = "email", unique = true)
     private String email;
 
+    @NotNull
+    @Column(name = "password")
     private String password;
 
+    @NotNull
+    @Column(name = "address")
     private String address;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
